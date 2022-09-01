@@ -1,0 +1,25 @@
+name: 'Initialize openapi-cli'
+description: 'Declare .npmrc and install openapi-cli'
+inputs:
+  auth-token:
+    description: "Jfrog authentication token for Ikigai Digital's jfrog"
+    required: true
+  auth-email:
+    description: "Jfrog authentication token for Ikigai Digital's jfrog"
+    required: true
+  registry:
+    description: "Ikigai Digital's jfrog registry"
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: 'Create .npmrc'
+      shell: bash
+      run: |
+        echo "_auth = ${{ inputs.auth-token }}" >> ~/.npmrc
+        echo "email = ${{ inputs.auth-email }}" >> ~/.npmrc
+        echo "always-auth = true" >> ~/.npmrc
+        echo "registry = ${{ inputs.registry }}" >> ~/.npmrc
+    - name: 'Install openapi-cli'
+      shell: bash
+      run: npm install -g @ikigai-digital/openapi-cli
